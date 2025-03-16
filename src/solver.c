@@ -157,7 +157,7 @@ void solve_diffusion_newton(int rank, double *u, int n, double dx, int max_iter)
 
         // calcul de la matrice Jacobienne
         J_diag[0] = KAPPA0 / dx_sq * (2 * Kn12[0]) + 4 * SIGMA * pow(u[0], 3);
-        J_upper[0] = KAPPA0 / dx_sq * (2 * Kn12[0]);
+        J_upper[0] = -KAPPA0 / dx_sq * (2 * Kn12[0]);
         J_lower[0] = 0;
 
         for (int i = 1; i < n - 1; i++) {
