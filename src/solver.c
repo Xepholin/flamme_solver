@@ -68,8 +68,8 @@ void solve_diffusion_implicit_linear(int rank, double *u, int n, double dx, int 
 
         for (int i = 1; i < n - 1; i++) {
             A_diag[i] = 1 + dt * (KAPPA0 / dx_sq * (Kn12[i - 1] + Kn12[i]) + SIGMA * pow(u[i], 3));
-            A_upper[i] = -dt * KAPPA0 / dx_sq * Kn12[i - 1];
-            A_lower[i] = -dt * KAPPA0 / dx_sq * Kn12[i];
+            A_upper[i] = -dt * KAPPA0 / dx_sq * Kn12[i];
+            A_lower[i] = -dt * KAPPA0 / dx_sq * Kn12[i - 1];
         }
 
         A_diag[n - 1] = 1;
@@ -143,8 +143,8 @@ void solve_diffusion_newton(int rank, double *u, int n, double dx, int max_iter)
     for (iter = 0; iter < max_iter; iter++) {
         // calcul du 2nd membre -Fi
         // nds internes
-        for (int i = 0; i < n - 1; i++) {
-            Kn12[i] = 0.5 * (u[i] * u[i] + u[i + 1] * u[i + 1]);
+        for (int i = 1; i < n; i++) {
+            Kn12[i - 1] = 0.5 * (kappa(u[i - 1]) + kappa(u[i]));
         }
 
         for (int i = 1; i < n - 1; i++) {
